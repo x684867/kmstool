@@ -53,12 +53,16 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     encrypted data.
     '''
     if key_id is None:
-        print("ERROR: Empty or null key_id")
+        print("create_data_key(): ERROR: Empty or null key_id")
         sys.exit(1)
-    
+    else:
+        print("create_data_key(): key_id:{}".format(key_id))
+
     if not (keyspec in ('AES_256','AES_128')):
         print("ERROR: keyspec={AES_128,AES_256} only")
         sys.exit(1)
+    else:
+        print("create_data_key(): keyspec:{}".format(keyspec))
 
     args = {
         'KeyId': key_id,
@@ -66,11 +70,6 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     }
     if context:
         args['EncryptionContext'] = context
-
-    print("-"*20)
-    print("\ncreate_data_key(): client:{}".format(client))
-    print("create_data_key(): args:{}\n".format(args))
-    print("-"*20)
     response = client.generate_data_key(**args)
     # return (b64decode(response['Plaintext']), response['CiphertextBlob'])
     return (response['Plaintext'], response['CiphertextBlob'])
