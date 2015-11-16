@@ -18,18 +18,25 @@ def discover_region():
 
 
 def get_client(region=None, profile=None):
-    session = botocore.session.get_session()
-    region = region or discover_region()
+    try:
+        print("get_client(): starting...")
+        session = botocore.session.get_session()
+        print("get_client(): session determined:{}".format(session))
+        region = region or discover_region()
+        print("get_client(): region determined:{}".format(region))
 
-    if not region:
-        raise ValueError('Region was not provided and could not be determined')
+        if not region:
+            raise ValueError('Region was not provided and could not be determined')
 
-    session.set_config_variable('region', region)
-    if profile:
-        session.set_config_variable('profile', profile)
-
-    return session.create_client('kms', region_name=region)
-
+        session.set_config_variable('region', region)
+        print("region set for session")
+        if profile:
+            session.set_config_variable('profile', profile)
+        print("profile set for session")
+        return session.create_client('kms', region_name=region)
+        print("client created")
+    except Exception as e:
+        print("get_client() failed:{}".format(e))
 
 def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     '''
