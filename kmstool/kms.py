@@ -59,6 +59,7 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     if context:
         args['EncryptionContext'] = context
 
+    print("client:{}".format(client))
     response = client.generate_data_key(**args)
     # return (b64decode(response['Plaintext']), response['CiphertextBlob'])
     return (response['Plaintext'], response['CiphertextBlob'])
