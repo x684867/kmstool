@@ -21,19 +21,20 @@ def get_client(region=None, profile=None):
     try:
         print("get_client(): starting...")
         session = botocore.session.get_session()
-        print("get_client(): session determined:{}".format(session))
         region = region or discover_region()
-        print("get_client(): region determined:{}".format(region))
 
         if not region:
             raise ValueError('Region was not provided and could not be determined')
 
         session.set_config_variable('region', region)
-        print("region set for session")
         if profile:
             session.set_config_variable('profile', profile)
-        print("profile set for session")
-        return session.create_client('kms', region_name=region)
+        print("create_client() will be called...")
+        try:
+            return session.create_client('kms', region_name=region)
+        except Exception as e:
+            print("get_client() failed when calling session.create_client()")
+            print("     ERROR:{}\n".format(e))
         print("client created")
     except Exception as e:
         print("get_client() failed:{}".format(e))
