@@ -30,6 +30,7 @@ def get_client(region=None, profile=None):
         session.set_config_variable('region', region)
         if profile:
             session.set_config_variable('profile', profile)
+
         print("create_client() will be called...")
         try:
             return session.create_client('kms', region_name=region)
@@ -37,10 +38,13 @@ def get_client(region=None, profile=None):
             print("\nget_client() failed calling session.create_client()")
             print("     ERROR:{}\n".format(e))
             sys.exit(1) 
+
         print("client created")
+    
     except Exception as e:
         print("get_client() failed:{}".format(e))
         sys.exit(1)
+    print("get_client() finished")
 
 def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     '''
