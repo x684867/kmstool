@@ -56,7 +56,7 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
         print("ERROR: Empty or null key_id")
         sys.exit(1)
     
-    if not (keyspec in ('AES_256','AES_128'):
+    if not (keyspec in ('AES_256','AES_128')):
         print("ERROR: keyspec={AES_128,AES_256} only")
         sys.exit(1)
 
