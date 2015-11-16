@@ -1,3 +1,4 @@
+import sys
 import botocore.session
 from botocore.exceptions import ClientError
 from urllib2 import urlopen, URLError
@@ -33,11 +34,13 @@ def get_client(region=None, profile=None):
         try:
             return session.create_client('kms', region_name=region)
         except Exception as e:
-            print("get_client() failed when calling session.create_client()")
+            print("\nget_client() failed calling session.create_client()")
             print("     ERROR:{}\n".format(e))
+            sys.exit(1) 
         print("client created")
     except Exception as e:
         print("get_client() failed:{}".format(e))
+        sys.exit(1)
 
 def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     '''
