@@ -52,6 +52,14 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     as well as the KMS-encrypted version of the key to be stored with the
     encrypted data.
     '''
+    if key_id is None:
+        print("ERROR: Empty or null key_id")
+        sys.exit(1)
+    
+    if not (keyspec in ('AES_256','AES_128'):
+        print("ERROR: keyspec={AES_128,AES_256} only")
+        sys.exit(1)
+
     args = {
         'KeyId': key_id,
         'KeySpec': keyspec,
@@ -59,8 +67,10 @@ def create_data_key(client, key_id, context=None, keyspec='AES_256'):
     if context:
         args['EncryptionContext'] = context
 
-    print("\nclient:{}".format(client))
-    print("args:{}\n".format(args))
+    print("-"*20)
+    print("\ncreate_data_key(): client:{}".format(client))
+    print("create_data_key(): args:{}\n".format(args))
+    print("-"*20)
     response = client.generate_data_key(**args)
     # return (b64decode(response['Plaintext']), response['CiphertextBlob'])
     return (response['Plaintext'], response['CiphertextBlob'])
